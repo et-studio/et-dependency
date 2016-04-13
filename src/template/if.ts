@@ -51,12 +51,12 @@ export class IfTemplate extends Template {
   private pickChild (id: number, constructor: ITemplateConstructor) {
     let child = this.templates[id]
     if (!child) {
-      child = new constructor(this.context)
+      child = new constructor(this.context, this.arguments)
       this.templates[id] = child
+    } else {
+      child.arguments = this.arguments
+      child.context = this.context
     }
-
-    child.arguments = this.arguments
-    child.context = this.context
     return child
   }
 }

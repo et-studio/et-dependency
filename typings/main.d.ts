@@ -1,6 +1,6 @@
 
 interface ITemplateConstructor {
-  new (context: any): ITemplate
+  new (context: any, args?: any[]): ITemplate
 }
 
 interface ITemplate {

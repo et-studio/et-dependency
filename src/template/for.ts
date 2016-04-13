@@ -74,11 +74,12 @@ export class ForTemplate extends Template {
   private ensureChild<T> (id: number, args: T[]) {
     let child = this.templates[id]
     if (!child) {
-      child = new this.childConstructor(this.context)
+      child = new this.childConstructor(this.context, args)
       this.templates[id] = child
+    } else {
+      child.context = this.context
+      child.arguments = args
     }
-    child.context = this.context
-    child.arguments = args
     return child
   }
   private getForList () {

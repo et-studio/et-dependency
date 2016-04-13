@@ -26,8 +26,9 @@ export class Template implements ITemplate {
   private state = TEMPLATE_STATES.free
   private cache: (string | string[])[] = []
 
-  constructor (context: any) {
+  constructor (context: any, args?: any[]) {
     this.context = context
+    if (args) this.arguments = args
 
     let create = this.createFn
     if (typeof create === 'function') {
