@@ -9,7 +9,8 @@
     "start": "webpack --progress --watch",
     "build": "rm -rf dist es5 && tsc && webpack --progress && gulp",
     "dev": "karma start karma.dev.js",
-    "test": "karma start karma.conf.js"
+    "test": "karma start karma.conf.js",
+    "prepublish": "npm run build && npm test"
   },
   "repository": {
     "type": "git",
