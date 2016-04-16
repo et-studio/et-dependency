@@ -1,5 +1,9 @@
 'use strict'
 
+const path = require('path')
+const IS_DEV = (process.env.NODE_ENV === 'dev')
+const webpackConfig = require('./webpack.config')
+
 module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -66,5 +70,28 @@ module.exports = function (config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
+  })
+
+  // configs for development
+  if (!IS_DEV) return
+  config.set({
+    files: [
+      'node_modules/should/should.js',
+      'src/index.ts',
+      'test/**/*_spec.js'
+    ],
+    plugins: [
+      'karma-chrome-launcher',
+      'karma-phantomjs-launcher',
+      'karma-mocha',
+      'karma-webpack',
+      path.resolve(__dirname, './tools/karma.wrapper.js')
+    ],
+    browsers: ['PhantomJS', 'Chrome'],
+    singleRun: false,
+    preprocessors: {
+      'src/**/*.ts': ['webpack', 'wrapper']
+    },
+    webpack: webpackConfig
   })
 }

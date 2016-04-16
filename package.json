@@ -4,13 +4,14 @@
   "version": "0.4.0-beta1",
   "description": "The dependency for et-template compiled codes.",
   "scripts": {
+    "clean": "rm -rf dist es5",
     "lint": "standard && tslint src/**/*.ts",
-    "prebuild": "npm run lint",
-    "start": "webpack --progress --watch",
-    "build": "rm -rf dist es5 && tsc && webpack --progress && gulp",
-    "dev": "karma start karma.dev.js",
+    "start": "NODE_ENV=dev npm run test",
+    "prebuild": "npm run clean && npm run lint",
+    "build": "tsc && webpack --progress && gulp",
+    "postbuild": "npm run test",
     "test": "karma start karma.conf.js",
-    "prepublish": "npm run build && npm test"
+    "prepublish": "npm run build && npm run lint && npm test"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
     "karma-chrome-launcher": "^0.2.3",
     "karma-mocha": "^0.2.2",
     "karma-phantomjs-launcher": "^1.0.0",
+    "karma-webpack": "^1.7.0",
     "lodash": "^4.7.0",
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.7",

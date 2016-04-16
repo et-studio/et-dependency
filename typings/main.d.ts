@@ -22,7 +22,7 @@ interface ITemplate {
 
   get(): Node
   point(id: number): Node
-  update(context?: any): void
+  update(): void
   remove(): void
   destroy(): void
   setAttr(id: number, key: string, value: string): void
