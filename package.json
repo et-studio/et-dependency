@@ -11,7 +11,7 @@
     "build": "tsc && webpack --progress && gulp",
     "postbuild": "npm run test",
     "test": "karma start karma.conf.js",
-    "prepublish": "npm run build && npm run lint && npm test"
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
