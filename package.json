@@ -1,7 +1,7 @@
 {
   "name": "et-dependency",
   "main": "dist/index.js",
-  "version": "0.4.0-beta1",
+  "version": "0.4.0",
   "description": "The dependency for et-template compiled codes.",
   "scripts": {
     "clean": "rm -rf dist es5",
@@ -11,7 +11,7 @@
     "build": "tsc && webpack --progress && gulp",
     "postbuild": "npm run test",
     "test": "karma start karma.conf.js",
-    "prepublish": "npm run build"
+    "deploy": "npm run build && npm publish"
   },
   "repository": {
     "type": "git",
