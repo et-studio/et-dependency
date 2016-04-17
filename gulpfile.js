@@ -1,9 +1,10 @@
 'use strict'
 
-let gulp = require('gulp')
-let path = require('path')
-let through = require('through2')
-let gutil = require('gulp-util')
+const gulp = require('gulp')
+const path = require('path')
+const through = require('through2')
+const gutil = require('gulp-util')
+const wrapper = require('./tools/wrapper')
 
 gulp.task('default', function () {
   return gulp.src(['dist/index.js'])
@@ -23,68 +24,29 @@ function wrap (moduleId) {
   return through.obj(function (file, ence, next) {
     if (!file.isBuffer()) return next()
 
-    let extname = path.extname(file.path)
-    let contents = file.contents.toString()
+    const extname = path.extname(file.path)
+    const contents = file.contents.toString()
 
     this.push(new gutil.File({
       path: 'ng' + extname,
-      contents: new Buffer(ng(contents, moduleId))
+      contents: new Buffer(wrapper.ng(contents, moduleId))
     }))
 
     this.push(new gutil.File({
       path: 'cmd' + extname,
-      contents: new Buffer(cmd(contents, moduleId))
+      contents: new Buffer(wrapper.cmd(contents, moduleId))
     }))
 
     this.push(new gutil.File({
       path: 'amd' + extname,
-      contents: new Buffer(amd(contents, moduleId))
+      contents: new Buffer(wrapper.amd(contents, moduleId))
     }))
 
     this.push(new gutil.File({
       path: 'global' + extname,
-      contents: new Buffer(global(contents, moduleId))
+      contents: new Buffer(wrapper.global(contents, moduleId))
     }))
 
     next()
   })
-}
-
-function ng (contents, moduleId) {
-  return `;angular.module('et.template', []).factory('${moduleId}', [function() {
-    var exports = {};
-    var module = {};
-
-    ${contents}
-
-    return module.exports || exports;
-  }]);`
-}
-
-function cmd (contents) {
-  return `;define(function (require, module, exports) {
-    ${contents}
-  });`
-}
-
-function amd (contents, moduleId) {
-  return `;define('${moduleId}', [], function() {
-    var exports = {};
-    var module = {};
-
-    ${contents}
-
-    return module.exports || exports;
-  });`
-}
-
-function global (contents, moduleId) {
-  return `;(function(global){
-    var exports = {};
-    var module = {};
-
-    ${contents}
-
-    global['${moduleId}'] = module.exports || exports;
-  })(window || this);`
 }
