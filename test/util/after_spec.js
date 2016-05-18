@@ -15,6 +15,9 @@
 
       $div.childNodes[1].should.equal($a)
     })
+
+    it('test jenkins', function () {
+      [1].should.equal([2])
+    })
   })
 })(window || this)
-
